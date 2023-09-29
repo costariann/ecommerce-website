@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MERN ECOMMERCE
 
 # Procedures
@@ -49,3 +50,6 @@
     b define reducer
     c. create store provider
     d. implement add to cart button click handler
+=======
+# ecommerce-website
+>>>>>>> origin/main
