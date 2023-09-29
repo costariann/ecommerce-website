@@ -15,6 +15,19 @@ main {
   flex: 1;
 }
 
+.btn-primary {
+  background-color: #f0c040;
+  color: #404040;
+}
+
+.rating {
+  color: #ffc000;
+}
+
+.img-large {
+  max-width: 100%;
+}
+
 .products {
   display: flex;
   flex-wrap: wrap;

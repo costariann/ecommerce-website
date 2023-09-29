@@ -1,6 +1,6 @@
 # MERN ECOMMERCE
 
-# Lessons
+# Procedures
 
 1. Create react App using npx
 2. Install tools
@@ -25,3 +25,27 @@
    b. use state hook
    c. use effect hook
    d. use reducer hook
+8. Manage State using reducer hook
+   a. define reducer
+   b. update fetch data
+   c. get state from useReducer
+9. Add bootstrap UI framework
+   a. npm install react-bootstrap bootstrap
+   b. update App.js
+10. Creaate Product and Product component
+    a. create rating component
+    b. create product component
+    c. use Rating component in Product component
+11. Create Product Details Screen
+    a. fetch product from backend
+    b. create 3 columns for image, details and action
+12. Create Loading and Message Component
+    a. create loading component
+    b. use spinner component
+    c. create message component
+    d. create utils.js to define getError function
+13. Implement Add to Cart
+    a. create react context
+    b define reducer
+    c. create store provider
+    d. implement add to cart button click handler
