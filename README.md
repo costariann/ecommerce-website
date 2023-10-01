@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MERN ECOMMERCE
 
 # Procedures
@@ -47,9 +46,21 @@
     d. create utils.js to define getError function
 13. Implement Add to Cart
     a. create react context
-    b define reducer
+    b. define reducer
     c. create store provider
     d. implement add to cart button click handler
-=======
-# ecommerce-website
->>>>>>> origin/main
+14. Complete Add to Cart
+    a. check exist item in the cart
+    b. check count in stock in the backend
+15. Create Cart Screen
+    a. create two columns
+    b. display item list
+    c. create action column
+16. Complete Cart Screen
+    a. click handler for both increase and decrease button
+    b. click handler to remove item
+    c. click handler for checkout
+17. Create SignIn Screen
+    a. create sign in form
+    b. add email and password
+    c.add sign in button

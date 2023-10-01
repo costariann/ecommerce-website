@@ -56,3 +56,7 @@ main {
   text-decoration: none;
   color: #404040;
 }
+
+.small-container {
+  max-width: 600px;
+}

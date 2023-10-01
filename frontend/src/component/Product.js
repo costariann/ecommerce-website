@@ -17,22 +17,26 @@ export const Product = (props) => {
   } = state;
 
   const addToCartHandler = async (item) => {
-    const existItem = cartItem.find((item) => item._id === product._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(
-      `http://localhost:5000/api/products/${item._id}`
-    );
+    try {
+      const existItem = cartItem.find((item) => item._id === product._id);
+      const quantity = existItem ? existItem.quantity + 1 : 1;
+      const { data } = await axios.get(
+        `http://localhost:5000/api/products/${product._id}`
+      );
 
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
-      return;
+      if (data.countInStock < quantity) {
+        window.alert('Sorry. Product is out of stock');
+        return;
+      }
+
+      ctxDispatch({
+        type: 'CART_ADD_ITEM',
+        payload: { ...product, quantity },
+      });
+      navigate('/cart');
+    } catch (error) {
+      console.log('Error adding to cart', error);
     }
-
-    ctxDispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...item, quantity },
-    });
-    navigate('/cart');
   };
 
   return (
