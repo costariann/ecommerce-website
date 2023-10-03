@@ -64,3 +64,15 @@
     a. create sign in form
     b. add email and password
     c.add sign in button
+18. Connect To MongoDB Database
+    a. connect to mongodb
+19. Seed Sample data
+    a. create Product model
+    b. create user model
+    c. create seed route
+    d. use route in server.js
+    e. seed sample product
+20. Seed Sample User
+    a. create user model
+    b. seed sample user
+    c. create user model
