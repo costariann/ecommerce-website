@@ -76,3 +76,7 @@
     a. create user model
     b. seed sample user
     c. create user model
+21. Create Sign In Backend API
+    a. create signin api
+    b. npm install jsonwebtoken
+    c. define genereateToken
