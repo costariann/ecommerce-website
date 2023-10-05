@@ -14,6 +14,7 @@ import { CartPage } from './pages/CartPage';
 import { SignInPage } from './pages/SignInPage';
 import { NavDropdown } from 'react-bootstrap';
 import { ShippingAddressPage } from './ShippingAddressPage';
+import { SignUpPage } from './pages/SignUpPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -89,6 +90,7 @@ function App() {
               <Route path="/product/:slug" element={<ProductPage />}></Route>
               <Route path="/cart" element={<CartPage />}></Route>
               <Route path="/signin" element={<SignInPage />}></Route>
+              <Route path="/signup" element={<SignUpPage />}></Route>
               <Route path="/shipping" element={<ShippingAddressPage />}></Route>
               <Route path="/" element={<HomePage />}></Route>
             </Routes>
