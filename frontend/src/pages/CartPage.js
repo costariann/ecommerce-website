@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const CartPage = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -29,6 +30,8 @@ export const CartPage = () => {
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
     });
+
+    toast.success(`${item.name} added to cart`);
     navigate('/cart');
   };
 

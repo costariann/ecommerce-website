@@ -60,3 +60,7 @@ main {
 .small-container {
   max-width: 600px;
 }
+
+.toast-right {
+  right: 20px;
+}
