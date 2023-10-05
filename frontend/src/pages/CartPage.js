@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 
 export const CartPage = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
+
+  const { userInfo } = state;
   const navigate = useNavigate();
 
   const updateCartHandler = async (item, quantity) => {
@@ -44,7 +46,11 @@ export const CartPage = () => {
   } = state;
 
   const checkoutHandler = () => {
-    navigate('/signin?redirect=shipping');
+    if (!userInfo) {
+      navigate('/signin');
+    } else {
+      navigate('/shipping');
+    }
   };
 
   return (

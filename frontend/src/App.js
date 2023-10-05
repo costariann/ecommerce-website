@@ -13,6 +13,7 @@ import { Store } from './Store';
 import { CartPage } from './pages/CartPage';
 import { SignInPage } from './pages/SignInPage';
 import { NavDropdown } from 'react-bootstrap';
+import { ShippingAddressPage } from './ShippingAddressPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -20,6 +21,8 @@ function App() {
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
   };
 
   return (
@@ -54,12 +57,25 @@ function App() {
                       className="dropdown-link"
                       to="#signout"
                       onClick={signoutHandler}
+                      style={{
+                        textDecoration: 'none',
+                        color: '#404040',
+                        marginLeft: '15px',
+                      }}
                     >
                       Sign Out
                     </Link>
                   </NavDropdown>
                 ) : (
-                  <Link to="/signin" className="nan-link">
+                  <Link
+                    to="/signin"
+                    className="nan-link"
+                    style={{
+                      textDecoration: 'none',
+                      marginTop: '9px',
+                      color: '#808080',
+                    }}
+                  >
                     Sign In
                   </Link>
                 )}
@@ -73,6 +89,7 @@ function App() {
               <Route path="/product/:slug" element={<ProductPage />}></Route>
               <Route path="/cart" element={<CartPage />}></Route>
               <Route path="/signin" element={<SignInPage />}></Route>
+              <Route path="/shipping" element={<ShippingAddressPage />}></Route>
               <Route path="/" element={<HomePage />}></Route>
             </Routes>
           </Container>
