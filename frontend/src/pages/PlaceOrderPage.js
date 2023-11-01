@@ -1,14 +1,34 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { CheckoutSteps } from '../component/CheckoutSteps';
 import { Helmet } from 'react-helmet-async';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
+import { toast } from 'react-toastify';
+import getError from '../component/utils';
+import axios from 'axios';
+import { LoadingBox } from '../component/LoadingBox';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'CREATE_REQUEST':
+      return { ...state, loading: true };
+    case 'CREATE_SUCCESS':
+      return { ...state, loading: false };
+    case 'CREATE_FAIL':
+      return { ...state, loading: false };
+    default:
+      return state;
+  }
+};
 
 export const PlaceOrderPage = () => {
+  const navigate = useNavigate();
+  const [{ loading }, dispatch] = useReducer(reducer, {
+    loading: false,
+  });
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
-  const navigate = useNavigate();
   const shippingAddress = cart.shippingAddress || {};
   const fullName = shippingAddress.fullName || '';
   const address = shippingAddress.address || '';
@@ -26,7 +46,36 @@ export const PlaceOrderPage = () => {
   cart.taxPrice = decimalPlace2(0.15 * cart.itemPrice);
   cart.totalPrice = cart.itemPrice + cart.shippingPrice + cart.taxPrice;
 
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      dispatch({ type: 'CREATE_REQUEST' });
+
+      const { data } = await axios.post(
+        'http://localhost:5000/api/orders',
+        {
+          orderItems: cart.cartItem,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemPrice: cart.itemPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      ctxDispatch({ type: 'CART_CLEAR' });
+      dispatch({ type: 'CREATE_SUCCESS' });
+      localStorage.removeItem('cartItem');
+      navigate(`/order/${data.order._id}`);
+    } catch (err) {
+      dispatch({ type: 'CREATE_FAIL' });
+      toast.error(getError(err));
+    }
+  };
 
   useEffect(() => {
     if (!cart.paymentMethod) {
@@ -72,7 +121,7 @@ export const PlaceOrderPage = () => {
                   <Row className="align-item-center">
                     <Col md={6}>
                       <img
-                        src={item.imge}
+                        src={item.image}
                         alt={item.name}
                         className="image-fluid rounded img-thumbnail"
                       ></img>{' '}
@@ -129,6 +178,7 @@ export const PlaceOrderPage = () => {
                     >
                       Place Order
                     </Button>
+                    {loading && <LoadingBox></LoadingBox>}
                   </div>
                 </ListGroup.Item>
               </ListGroup>

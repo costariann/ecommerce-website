@@ -92,3 +92,13 @@
     a. create input forms
     b. handle submit
     c. create backend API
+25. Implement Payment Method
+    a. create input forms
+    b. handle submit
+26. Create Place Order Screen
+    a. show cart items, payment and address
+    b. handle place order action
+    c. create order create api
+27. Implement Place Order Action
+    a. handle place order action
+    b. create order create api

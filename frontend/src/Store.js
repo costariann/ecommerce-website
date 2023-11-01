@@ -47,6 +47,9 @@ function reducer(state, action) {
       localStorage.setItem('carItem', JSON.stringify(cartItem));
       return { ...state, cart: { ...state.cart, cartItem } };
     }
+
+    case 'CART_CLEAR':
+      return { ...state, cart: { ...state.cart, cartItem: [] } };
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload };
     case 'USER_SIGNOUT':
