@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
@@ -12,7 +13,15 @@ root.render(
   <React.StrictMode>
     <StoreProvider>
       <HelmetProvider>
-        <App />
+        <PayPalScriptProvider
+          deferLoading={true}
+          options={{
+            clientId:
+              'AQ2zrvPHit7uXfSN43tKY0j7-QuQYNv2Wjjl4kAAlUfe8KkgqjdyvXfXeUE87R6jdci0j4lG8bFgtGek',
+          }}
+        >
+          <App />
+        </PayPalScriptProvider>
       </HelmetProvider>
     </StoreProvider>
   </React.StrictMode>

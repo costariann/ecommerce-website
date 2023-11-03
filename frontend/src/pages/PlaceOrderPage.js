@@ -44,7 +44,9 @@ export const PlaceOrderPage = () => {
   cart.shippingPrice =
     cart.itemPrice > 100 ? decimalPlace2(0) : decimalPlace2(10);
   cart.taxPrice = decimalPlace2(0.15 * cart.itemPrice);
-  cart.totalPrice = cart.itemPrice + cart.shippingPrice + cart.taxPrice;
+  cart.totalPrice = decimalPlace2(
+    cart.itemPrice + cart.shippingPrice + cart.taxPrice
+  );
 
   const placeOrderHandler = async () => {
     try {
@@ -59,7 +61,9 @@ export const PlaceOrderPage = () => {
           itemPrice: cart.itemPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
+          totalPrice: decimalPlace2(
+            cart.itemPrice + cart.shippingPrice + cart.taxPrice
+          ),
         },
         {
           headers: {

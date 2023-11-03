@@ -36,7 +36,7 @@ const orderSchema = new mongoose.Schema(
     totalPrice: { type: Number, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // reference to the user model. it is needed to know the user that created the model
     isPaid: { type: Boolean, default: false },
-    paidAt: { Date },
+    paidAt: { type: Date },
     isDelivered: { type: Boolean, default: false, deliveredAt: { type: Date } },
   },
   {
