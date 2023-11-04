@@ -58,7 +58,6 @@ export const OrderPage = () => {
       .then((orderID) => {
         return orderID;
       });
-    console.log(data);
   };
 
   const onApprove = (data, action) => {
@@ -80,7 +79,6 @@ export const OrderPage = () => {
         toast.error(getError(err));
       }
     });
-    console.log(data);
   };
 
   const onError = (err) => {

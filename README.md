@@ -115,3 +115,7 @@
     f. render PayPal Button
     g. implement onApprove payment function
     h. create pay order api in backend
+30. Display Order Page
+    a. create order page
+    b. create order history api
+    c. use api in the frontend
