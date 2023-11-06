@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/costariann/ecommerce-website.git"
   },
+  "engines": {
+    "node": "20.2.0"
+  },
   "author": "",
   "license": "ISC"
 }
