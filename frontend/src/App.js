@@ -19,6 +19,7 @@ import { PaymentMethodPage } from './pages/PaymentMethodPage';
 import { PlaceOrderPage } from './pages/PlaceOrderPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrderHistoryPage } from './pages/OrderHistoryPage';
+import { ProfilePage } from './ProfilePage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -29,6 +30,7 @@ function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
   };
 
   return (
@@ -41,7 +43,7 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>Multimart</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
+              <Nav className="me-auto  w-100  justify-content-end">
                 <Link to="/cart" className="nav-link">
                   Cart
                   {cart.cartItem.length > 0 && (
@@ -102,6 +104,7 @@ function App() {
               <Route path="/orders/:id" element={<OrderPage />}></Route>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="orderhistory" element={<OrderHistoryPage />}></Route>
+              <Route path="/profile" element={<ProfilePage />}></Route>
             </Routes>
           </Container>
         </main>

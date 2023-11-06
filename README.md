@@ -119,3 +119,8 @@
     a. create order page
     b. create order history api
     c. use api in the frontend
+31. Create Profile Page
+    a. get user info from contex
+    b. show user information
+    c. create user update api
+    d. update user info
