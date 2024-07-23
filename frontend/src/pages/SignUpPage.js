@@ -29,7 +29,7 @@ export const SignUpPage = () => {
     }
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/users/signup',
+        'http://localhost:8000/api/users/signup',
         {
           name,
           email,

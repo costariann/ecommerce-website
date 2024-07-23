@@ -20,7 +20,7 @@ export const CartPage = () => {
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(
-      `http://localhost:5000/api/products/${item._id}`
+      `http://localhost:8000/api/products/${item._id}`
     );
 
     if (data.countInStock < quantity) {

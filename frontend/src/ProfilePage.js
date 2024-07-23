@@ -36,10 +36,11 @@ export const ProfilePage = () => {
 
     try {
       const { data } = await axios.put(
-        'http://localhost:5000/api/users/profile',
+        'http://localhost:8000/api/users/profile',
         { name, email, password },
         { headers: { Authorization: `Bearer ${userInfo.token}` } }
       );
+      console.log('This is the data', data);
       dispatch({ type: 'UPDATE_SUCCESS' });
       ctxDispatch({ type: 'USER_SIGN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));

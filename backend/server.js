@@ -22,7 +22,9 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Replace with your actual frontend domain
+    origin: 'http://localhost:3000', // Allow requests from this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+    allowedHeaders: ['Content-Type'], // Allow these headers
   })
 );
 
@@ -49,7 +51,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`server connected at http://localhost:${port}`);

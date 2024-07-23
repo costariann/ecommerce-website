@@ -53,7 +53,7 @@ export const PlaceOrderPage = () => {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/orders',
+        'http://localhost:8000/api/orders',
         {
           orderItems: cart.cartItem,
           shippingAddress: cart.shippingAddress,

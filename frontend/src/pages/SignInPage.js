@@ -23,7 +23,7 @@ export const SignInPage = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/users/signin',
+        'http://localhost:8000/api/users/signin',
         {
           email,
           password,
@@ -32,6 +32,7 @@ export const SignInPage = () => {
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userinfo', JSON.stringify(data));
       navigate(redirect || '/');
+      console.log(email, password);
     } catch (err) {
       toast.error(getError(err));
     }

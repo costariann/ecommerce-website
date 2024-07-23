@@ -36,7 +36,7 @@ export const OrderHistoryPage = () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/mine`,
+          `http://localhost:8000/api/orders/mine`,
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
