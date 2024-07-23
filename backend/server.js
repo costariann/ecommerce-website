@@ -22,7 +22,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
+    origin: 'https://669ff5b75b0d381867d21b77--urbancartshopping.netlify.app/', // Allow requests from this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
     allowedHeaders: ['Content-Type'], // Allow these headers
   })

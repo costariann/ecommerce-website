@@ -36,7 +36,7 @@ export const ProfilePage = () => {
 
     try {
       const { data } = await axios.put(
-        'http://localhost:8000/api/users/profile',
+        'https://ecommerce-website-for-you.onrender.com/api/users/profile',
         { name, email, password },
         { headers: { Authorization: `Bearer ${userInfo.token}` } }
       );

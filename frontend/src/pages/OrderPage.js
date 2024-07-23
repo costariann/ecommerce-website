@@ -66,7 +66,7 @@ export const OrderPage = () => {
       try {
         dispatch({ type: 'PAY_REQUEST' });
         const { data } = await axios.put(
-          `http://localhost:8000/api/orders/${order._id}/pay`,
+          `https://ecommerce-website-for-you.onrender.com/api/orders/${order._id}/pay`,
           details,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
@@ -91,7 +91,7 @@ export const OrderPage = () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `http://localhost:8000/api/orders/${orderId}`,
+          `https://ecommerce-website-for-you.onrender.com/api/orders/${orderId}`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }
@@ -114,7 +114,7 @@ export const OrderPage = () => {
     } else {
       const loadPayPalScript = async () => {
         const { data: clientId } = await axios.get(
-          'http://localhost:8000/api/keys/paypal',
+          'https://ecommerce-website-for-you.onrender.com/api/keys/paypal',
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }

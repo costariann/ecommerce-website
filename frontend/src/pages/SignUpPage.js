@@ -29,7 +29,7 @@ export const SignUpPage = () => {
     }
     try {
       const { data } = await axios.post(
-        'http://localhost:8000/api/users/signup',
+        'https://ecommerce-website-for-you.onrender.com/api/users/signup',
         {
           name,
           email,
