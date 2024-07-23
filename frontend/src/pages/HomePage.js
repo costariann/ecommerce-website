@@ -36,7 +36,7 @@ export const HomePage = () => {
 
       try {
         const response = await axios.get(
-          'https://ecommerce-website-for-you.onrender.com/api/products'
+          'https://ecommerce-website-for-you.onrender.com/api/users/profile/api/products'
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
       } catch (err) {
