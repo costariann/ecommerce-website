@@ -65,7 +65,7 @@ export const OrderPage = () => {
       console.log(details);
       try {
         dispatch({ type: 'PAY_REQUEST' });
-        const { data } = await .put(
+        const { data } = await axios.put(
           `https://ecommerce-website-for-you.onrender.com/api/orders/${order._id}/pay`,
           details,
           {
