@@ -2,7 +2,10 @@
 
 # dependencies
 .env
-node_modules
+# Ignore node_modules in the frontend folder
+/frontend/node_modules/
+# Ignore node_modules in the backend folder
+/backend/node_modules/
 /.pnp
 .pnp.js
 
