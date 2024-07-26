@@ -30,19 +30,22 @@ export const HomePage = () => {
     error: '',
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+  const fetchData = async () => {
+    dispatch({ type: 'FETCH_REQUEST' });
+    console.log('fetching data');
+    try {
+      const response = await axios.get(
+        'https://ecommerce-website-for-you.onrender.com/api/products'
+      );
+      dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
+      console.log(response.data);
+    } catch (err) {
+      dispatch({ type: 'FETCH_FAIL', payload: err.message });
+      console.log(err);
+    }
+  };
 
-      try {
-        const response = await axios.get(
-          'https://ecommerce-website-for-you.onrender.com/api/users/profile/api/products'
-        );
-        dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
-      } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
-      }
-    };
+  useEffect(() => {
     fetchData();
   }, []);
 

@@ -71,6 +71,7 @@ export const ProductPage = () => {
         dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        JSON.stringify(err);
       }
     };
     fetchData();
