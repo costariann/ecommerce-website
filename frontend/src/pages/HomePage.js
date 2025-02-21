@@ -2,11 +2,17 @@ import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import Product from '../component/Product';
+import LoadingBox from '../component/LoadingBox';
+import MessageBox from '../component/MessageBox';
 import { Helmet } from 'react-helmet-async';
-import { LoadingBox } from '../component/LoadingBox';
-import { MessageBox } from '../component/MessageBox';
-import { Product } from '../component/Product';
+
+// Define getError function
+const getError = (error) => {
+  return error.response && error.response.data.message
+    ? error.response.data.message
+    : error.message;
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +29,7 @@ const reducer = (state, action) => {
 
 export const HomePage = () => {
   const [{ loading, error, products }, dispatch] = useReducer(reducer, {
-    products: [],
+    products: [], // Initialize as empty array
     loading: true,
     error: '',
   });
@@ -37,14 +43,21 @@ export const HomePage = () => {
           `${process.env.REACT_APP_API_URL}/api/products`
         );
         console.log('✅ Received data:', data);
+
+        // Ensure data is an array before dispatching
+        if (!Array.isArray(data)) {
+          throw new Error('API response is not an array');
+        }
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         console.error('❌ Error:', {
           message: err.message,
           response: err.response?.data,
           status: err.response?.status,
+          data: err.response?.data,
         });
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
 
@@ -61,6 +74,8 @@ export const HomePage = () => {
         <LoadingBox />
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
+      ) : !Array.isArray(products) ? (
+        <MessageBox variant="danger">Invalid product data received</MessageBox>
       ) : products.length === 0 ? (
         <MessageBox>No Products Found</MessageBox>
       ) : (
@@ -75,3 +90,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;

@@ -1,12 +1,12 @@
 {
   "name": "ecomsite",
   "version": "1.0.0",
-  "description": "1. Create react App using npx\r 2. Install tools\r 3. Create Navbar in App.js\r 4. Create Featured Products\r 5. Adding Router\r 6. Create Node.js server in backend\r    a. Run npm init in the root folder\r    b. Update package.json set type: module\r    c. Add .js to imports\r    d. npm install express.js\r    e. Create server.js\r    f. Add start command as node backend/server.js\r    g. require express\r    h. create router for / return backend is ready\r    i. move products.js from frontend to backend\r    j. create route for /api/products\r    k. return products\r    l. run npm start\r 7. Fetch Products from backend\r    a. npm install axios\r    b. use state hook\r    c. use effect hook\r    d. use reducer hook\r 8. Manage State using reducer hook\r    a. define reducer\r    b. update fetch data\r    c. get state from useReducer\r 9. Add bootstrap UI framework\r    a. npm install react-bootstrap bootstrap\r    b. update App.js\r 10. Creaate Product and Product component\r     a. create rating component\r     b. create product component\r     c. use Rating component in Product component\r 11. Create Product Details Screen\r     a. fetch product from backend\r     b. create 3 columns for image, details and action\r 12. Create Loading and Message Component\r     a. create loading component\r     b. use spinner component\r     c. create message component\r     d. create utils.js to define getError function\r 13. Implement Add to Cart\r     a. create react context\r     b. define reducer\r     c. create store provider\r     d. implement add to cart button click handler\r 14. Complete Add to Cart\r     a. check exist item in the cart\r     b. check count in stock in the backend\r 15. Create Cart Screen\r     a. create two columns\r     b. display item list\r     c. create action column\r 16. Complete Cart Screen\r     a. click handler for both increase and decrease button\r     b. click handler to remove item\r     c. click handler for checkout\r 17. Create SignIn Screen\r     a. create sign in form\r     b. add email and password\r     c.add sign in button\r 18. Connect To MongoDB Database\r     a. connect to mongodb\r 19. Seed Sample data\r     a. create Product model\r     b. create user model\r     c. create seed route\r     d. use route in server.js\r     e. seed sample product\r 20. Seed Sample User\r     a. create user model\r     b. seed sample user\r     c. create user model\r 21. Create Sign In Backend API\r     a. create signin api\r     b. npm install jsonwebtoken\r     c. define genereateToken\r 22. Complete Signin Page\r     a. handle submit action\r     b. save token in store and local storage\r     c. show user name in header\r 23. Create Shipping Screen\r     a. create form inputs\r     b. handle save shipping address\r     c.add checkout wizard bar\r 24. Create Sign Up Screen\r     a. create input forms\r     b. handle submit\r     c. create backend API\r 25. Implement Payment Method\r     a. create input forms\r     b. handle submit\r 26. Create Place Order Screen\r     a. show cart items, payment and address\r     b. handle place order action\r     c. create order create api\r 27. Implement Place Order Action\r     a. handle place order action\r     b. create order create api\r 28. Create Order Page\r     a. create backend api for order/:id\r     b. fetch order api in frontend\r     c. show order information in two columns\r 29. Pay Order By Paypal\r     a. generate paypal client id\r     b. create api to return client id\r     c. install react-paypal-js\r     d. use PayPalScriptProvider in index.js\r     e. implement loadPayPalScipt function\r     f. render PayPal Button\r     g. implement onApprove payment function\r     h. create pay order api in backend\r 30. Display Order Page\r     a. create order page\r     b. create order history api\r     c. use api in the frontend\r 31. Create Profile Page\r     a. get user info from contex\r     b. show user information\r     c. create user update api\r     d. update user info\r 32. Publish to Heroku\r     a. create and config\r     b. serve build folder in frontend folder\r     c. create heroku account\r     d. connect it to github\r     e. create mongodb atlas\r     f. set database connection in heroku env variables\r     g. commit and push",
-  "main": "index.js",
+  "type": "module",
+  "main": "backend/server.js",
   "scripts": {
-    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "nodemon backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,13 @@
     "node": "20.2.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.1"
+  }
 }
