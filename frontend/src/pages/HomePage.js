@@ -7,13 +7,6 @@ import LoadingBox from '../component/LoadingBox';
 import MessageBox from '../component/MessageBox';
 import { Helmet } from 'react-helmet-async';
 
-// Define getError function
-const getError = (error) => {
-  return error.response && error.response.data.message
-    ? error.response.data.message
-    : error.message;
-};
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -38,26 +31,17 @@ export const HomePage = () => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        console.log('🔍 Fetching from:', process.env.REACT_APP_API_URL);
         const { data } = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/products`
         );
-        console.log('✅ Received data:', data);
+        console.log('API Response:', data); // Debug log
 
         // Ensure data is an array before dispatching
-        if (!Array.isArray(data)) {
-          throw new Error('API response is not an array');
-        }
-
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        const productsArray = Array.isArray(data) ? data : [];
+        dispatch({ type: 'FETCH_SUCCESS', payload: productsArray });
       } catch (err) {
-        console.error('❌ Error:', {
-          message: err.message,
-          response: err.response?.data,
-          status: err.response?.status,
-          data: err.response?.data,
-        });
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        console.error('Fetch Error:', err);
+        dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
     };
 
@@ -75,7 +59,7 @@ export const HomePage = () => {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : !Array.isArray(products) ? (
-        <MessageBox variant="danger">Invalid product data received</MessageBox>
+        <MessageBox variant="danger">Invalid data format received</MessageBox>
       ) : products.length === 0 ? (
         <MessageBox>No Products Found</MessageBox>
       ) : (
