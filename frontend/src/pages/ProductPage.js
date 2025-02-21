@@ -47,7 +47,7 @@ export const ProductPage = () => {
     const existItem = cart.cartItem.find((item) => item._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `http://localhost:8000/api/products/${product._id}`
+      `${process.env.REACT_APP_API_URL}/${product._id}`
     );
 
     if (data.countInStock < quantity) {
@@ -68,7 +68,7 @@ export const ProductPage = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/products/slug/${slug}`
+          `${process.env.REACT_APP_API_URL}/slug/${slug}`
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
       } catch (err) {
