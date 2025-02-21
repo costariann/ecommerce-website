@@ -1,14 +1,14 @@
 import React, { useEffect, useReducer } from 'react';
-// import data from '../data';
 import axios from 'axios';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Product } from '../component/Product';
+import Col from 'react-bootstrap/Col';
+
 import { Helmet } from 'react-helmet-async';
 import { LoadingBox } from '../component/LoadingBox';
 import { MessageBox } from '../component/MessageBox';
+import { Product } from '../component/Product';
 
-export const reducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
@@ -22,30 +22,32 @@ export const reducer = (state, action) => {
 };
 
 export const HomePage = () => {
-  //   const [products, setProducts] = useState([]);
-
   const [{ loading, error, products }, dispatch] = useReducer(reducer, {
     products: [],
     loading: true,
     error: '',
   });
 
-  const fetchData = async () => {
-    dispatch({ type: 'FETCH_REQUEST' });
-    console.log('fetching data');
-    try {
-      const response = await axios.get(
-        'https://ecommerce-website-for-you.onrender.com/api/products'
-      );
-      dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
-      console.log(response.data);
-    } catch (err) {
-      dispatch({ type: 'FETCH_FAIL', payload: err.message });
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      dispatch({ type: 'FETCH_REQUEST' });
+      try {
+        console.log('🔍 Fetching from:', process.env.REACT_APP_API_URL);
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/products`
+        );
+        console.log('✅ Received data:', data);
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {
+        console.error('❌ Error:', {
+          message: err.message,
+          response: err.response?.data,
+          status: err.response?.status,
+        });
+        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -55,21 +57,21 @@ export const HomePage = () => {
         <title>Multimart</title>
       </Helmet>
       <h1>Featured Products</h1>
-      <div className="products">
-        {loading ? (
-          <LoadingBox />
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : (
-          <Row>
-            {products.map((product) => (
-              <Col sm={6} md={4} lg={3} className="mb-3" key={product.slug}>
-                <Product product={product}></Product>
-              </Col>
-            ))}
-          </Row>
-        )}
-      </div>
+      {loading ? (
+        <LoadingBox />
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : products.length === 0 ? (
+        <MessageBox>No Products Found</MessageBox>
+      ) : (
+        <Row>
+          {products.map((product) => (
+            <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </div>
   );
 };

@@ -29,7 +29,7 @@ export const SignUpPage = () => {
     }
     try {
       const { data } = await axios.post(
-        'https://ecommerce-website-for-you.onrender.com/api/users/signup',
+        `${process.env.REACT_APP_API_URL}/api/users/signup`,
         {
           name,
           email,

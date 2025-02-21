@@ -36,7 +36,7 @@ export const OrderHistoryPage = () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(
-          `https://ecommerce-website-for-you.onrender.com/api/orders/mine`,
+          `${process.env.REACT_APP_API_URL}/api/orders/mine`,
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });

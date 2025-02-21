@@ -21,7 +21,7 @@ export const Product = (props) => {
       const existItem = cartItem.find((item) => item._id === product._id);
       const quantity = existItem ? existItem.quantity + 1 : 1;
       const { data } = await axios.get(
-        `https://ecommerce-website-for-you.onrender.com/api/products/${product._id}`
+        `${process.env.REACT_APP_API_URL}/api/products/${product._id}`
       );
 
       if (data.countInStock < quantity) {

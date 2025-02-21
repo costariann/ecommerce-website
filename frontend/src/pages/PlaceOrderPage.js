@@ -53,7 +53,7 @@ export const PlaceOrderPage = () => {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await axios.post(
-        'https://ecommerce-website-for-you.onrender.com/api/orders',
+        `${process.env.REACT_APP_API_URL}/api/orders`,
         {
           orderItems: cart.cartItem,
           shippingAddress: cart.shippingAddress,

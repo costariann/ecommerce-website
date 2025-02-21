@@ -20,7 +20,7 @@ export const CartPage = () => {
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(
-      `https://ecommerce-website-for-you.onrender.com/api/products/${item._id}`
+      `${process.env.REACT_APP_API_URL}/api/products/${item._id}`
     );
 
     if (data.countInStock < quantity) {

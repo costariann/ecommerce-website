@@ -1,51 +1,68 @@
 import express from 'express';
-import path from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import seedRouter from './routes/seedRoutes.js';
-import userRouter from './routes/userRoutes.js';
-import productRouter from './routes/productRoutes.js';
 import cors from 'cors';
+import seedRouter from './routes/seedRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoute.js';
 
 dotenv.config();
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('connected to database');
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
 
+// Initialize express
 const app = express();
 
-const allowedDomains = [
-  'https://urbancartshopping.netlify.app',
-  'http://localhost:3000',
-];
+// CORS configuration
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://urbancartshopping.netlify.app'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'Authorization',
+  ],
+};
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedDomains.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization,  X-PINGOTHER'
-  );
-  next();
-});
-//convert data to json inside the req.body
+// Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
-// app.get('/api/keys/paypal', (req, res) => {
-//   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
-// });
+// MongoDB connection with enhanced error handling
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+  })
+  .then(() => {
+    console.log('🌿 MongoDB connected successfully');
+    console.log(`📡 Database URL: ${process.env.MONGODB_URI}`);
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+    process.exit(1);
+  });
 
+// MongoDB connection event listeners
+mongoose.connection.on('connected', () => {
+  console.log('🟢 Mongoose connection established');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('🔴 Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('🟡 Mongoose connection disconnected');
+});
+
+// Routes
 app.get('/', (req, res) => {
-  res.send('hello world');
+  res.send('API is running...');
 });
 
 app.use('/api/seed', seedRouter);
@@ -53,18 +70,18 @@ app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 
-// const __dirname = path.resolve();
-// app.use(express.static(path.join(__dirname, '/frontend/build')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
-// });
+// PayPal client ID route
+app.get('/api/keys/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
 
-// app.use((err, req, res, next) => {
-//   res.status(500).send({ message: err.message });
-// });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
+// Start server
 const port = process.env.PORT || 8000;
-
 app.listen(port, () => {
-  console.log(`server connected at http://localhost:${port}`);
+  console.log(`🚀 Server running on http://localhost:${port}`);
 });
