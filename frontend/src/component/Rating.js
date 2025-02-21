@@ -1,8 +1,7 @@
 import React from 'react';
 
-export const Rating = (props) => {
-  const { rating, review } = props;
-
+const Rating = (props) => {
+  const { rating, numReviews, caption } = props;
   return (
     <div className="rating">
       <span>
@@ -14,7 +13,7 @@ export const Rating = (props) => {
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
           }
-        ></i>
+        />
       </span>
       <span>
         <i
@@ -25,7 +24,7 @@ export const Rating = (props) => {
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
           }
-        ></i>
+        />
       </span>
       <span>
         <i
@@ -36,7 +35,7 @@ export const Rating = (props) => {
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
           }
-        ></i>
+        />
       </span>
       <span>
         <i
@@ -47,7 +46,7 @@ export const Rating = (props) => {
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
           }
-        ></i>
+        />
       </span>
       <span>
         <i
@@ -58,9 +57,15 @@ export const Rating = (props) => {
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
           }
-        ></i>
+        />
       </span>
-      <span> {review} Reviews</span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span>{' ' + numReviews + ' reviews'}</span>
+      )}
     </div>
   );
 };
+
+export default Rating;

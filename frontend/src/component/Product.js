@@ -1,68 +1,53 @@
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Rating } from './Rating';
+import Rating from './Rating';
 import axios from 'axios';
-import { useContext } from 'react';
 import { Store } from '../Store';
 
 const Product = (props) => {
   const { product } = props;
-
-  const navigate = useNavigate();
-
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
-    cart: { cartItem },
+    cart: { cartItems },
   } = state;
 
   const addToCartHandler = async (item) => {
-    try {
-      const existItem = cartItem.find((item) => item._id === product._id);
-      const quantity = existItem ? existItem.quantity + 1 : 1;
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/products/${product._id}`
-      );
-
-      if (data.countInStock < quantity) {
-        window.alert('Sorry. Product is out of stock');
-        return;
-      }
-
-      ctxDispatch({
-        type: 'CART_ADD_ITEM',
-        payload: { ...product, quantity },
-      });
-      navigate('/cart');
-    } catch (error) {
-      console.log('Error adding to cart', error);
+    const existItem = cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry. Product is out of stock');
+      return;
     }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...item, quantity },
+    });
   };
 
   return (
     <Card>
       <Link to={`/product/${product.slug}`}>
-        <img
-          src={product.image}
-          alt={product.name}
-          className="card-img-top"
-        ></img>
+        <img src={product.image} className="card-img-top" alt={product.name} />
       </Link>
-      <Rating rating={product.rating} review={product.numReviews} />
       <Card.Body>
         <Link to={`/product/${product.slug}`}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
+        <Rating rating={product.rating} numReviews={product.numReviews} />
         <Card.Text>${product.price}</Card.Text>
         {product.countInStock === 0 ? (
-          <Button disabled variant="light">
-            Out of Stock
+          <Button variant="light" disabled>
+            Out of stock
           </Button>
         ) : (
-          <Button onClick={addToCartHandler}>Add to Cart</Button>
+          <Button onClick={() => addToCartHandler(product)}>Add to cart</Button>
         )}
       </Card.Body>
     </Card>
   );
 };
+
 export default Product;
