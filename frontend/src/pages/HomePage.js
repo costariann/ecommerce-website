@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Product from '../component/Product';
 import { Helmet } from 'react-helmet-async';
 import { MessageBox } from '../component/MessageBox';
-import { LoadingBox } from '../component/LoadingBox';
+import LoadingBox from '../component/LoadingBox';
 
 const reducer = (state, action) => {
   switch (action.type) {

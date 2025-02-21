@@ -7,7 +7,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import getError from '../component/utils';
 import axios from 'axios';
-import { LoadingBox } from '../component/LoadingBox';
+import LoadingBox from '../component/LoadingBox';
 
 const reducer = (state, action) => {
   switch (action.type) {

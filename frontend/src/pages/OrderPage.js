@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import { MessageBox } from '../component/MessageBox';
-import { LoadingBox } from '../component/LoadingBox';
+
 import { useNavigate, useParams } from 'react-router';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { Store } from '../Store';
@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet-async';
 import { Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import LoadingBox from '../component/LoadingBox';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':

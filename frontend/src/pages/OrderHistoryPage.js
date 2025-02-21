@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LoadingBox } from '../component/LoadingBox';
+
 import { MessageBox } from '../component/MessageBox';
 import { Store } from '../Store';
 import getError from '../component/utils';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import LoadingBox from '../component/LoadingBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
