@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { Store } from '../Store';
 
-export const Product = (props) => {
+const Product = (props) => {
   const { product } = props;
 
   const navigate = useNavigate();
@@ -65,3 +65,4 @@ export const Product = (props) => {
     </Card>
   );
 };
+export default Product;
