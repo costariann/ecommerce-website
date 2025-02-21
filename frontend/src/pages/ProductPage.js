@@ -3,16 +3,17 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import { useNavigate, useParams } from 'react-router';
+
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
 
-import { MessageBox } from '../component/MessageBox';
 import getError from '../component/utils';
 import { Store } from '../Store';
 import LoadingBox from '../component/LoadingBox';
+import { MessageBox } from '../component/MessageBox';
 import Rating from '../component/Rating';
 
 export const reducer = (state, action) => {
@@ -46,7 +47,7 @@ export const ProductPage = () => {
     const existItem = cart.cartItem.find((item) => item._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/products/${product._id}`
+      `http://localhost:8000/api/products/${product._id}`
     );
 
     if (data.countInStock < quantity) {
@@ -67,12 +68,11 @@ export const ProductPage = () => {
 
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/products/slug/${slug}`
+          `http://localhost:8000/api/products/slug/${slug}`
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
-        JSON.stringify(err);
       }
     };
     fetchData();
