@@ -35,7 +35,7 @@ export const ProductPage = () => {
   const { slug } = params;
 
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
-    product: [],
+    product: null,
     loading: true,
     error: '',
   });
@@ -44,33 +44,40 @@ export const ProductPage = () => {
   const { cart } = state;
 
   const addToCartHandler = async () => {
-    const existItem = cart.cartItem.find((item) => item._id === product._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/${product._id}`
-    );
+    try {
+      const existItem = cart.cartItems?.find(
+        (item) => item._id === product._id
+      );
+      const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
-      return;
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/products/slug/${product.slug}`
+      );
+
+      if (data.countInStock < quantity) {
+        window.alert('Sorry. Product is out of stock');
+        return;
+      }
+
+      ctxDispatch({
+        type: 'CART_ADD_ITEM',
+        payload: { ...product, quantity },
+      });
+      navigate('/cart');
+    } catch (err) {
+      console.error('Add to cart error:', err);
+      window.alert(getError(err));
     }
-
-    ctxDispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity },
-    });
-    navigate('/cart');
   };
 
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
-
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/slug/${slug}`
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/products/slug/${slug}`
         );
-        dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
@@ -82,11 +89,21 @@ export const ProductPage = () => {
     <LoadingBox />
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
+  ) : !product ? (
+    <MessageBox>Product Not Found</MessageBox>
   ) : (
     <div>
       <Row>
         <Col md={6}>
-          <img className="img-large" src={product.image} alt={product.name} />
+          <img
+            className="img-large"
+            src={product.image}
+            alt={product.name}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/images/placeholder.png';
+            }}
+          />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
@@ -97,9 +114,14 @@ export const ProductPage = () => {
               <h1>{product.name}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating rating={product.rating} review={product.numReviews} />
+              <Rating
+                rating={Number(product.rating)}
+                numReviews={Number(product.numReviews)}
+              />
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>
+              Price: ${Number(product.price).toFixed(2)}
+            </ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
         </Col>
@@ -110,7 +132,7 @@ export const ProductPage = () => {
                 <ListGroup.Item>
                   <Row>
                     <Col>Price:</Col>
-                    <Col>${product.price}</Col>
+                    <Col>${Number(product.price).toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -118,20 +140,17 @@ export const ProductPage = () => {
                     <Col>Status:</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">Available</Badge>
+                        <Badge bg="success">In Stock</Badge>
                       ) : (
-                        <Badge bg="danger">Unavailable</Badge>
+                        <Badge bg="danger">Out of Stock</Badge>
                       )}
                     </Col>
                   </Row>
                 </ListGroup.Item>
-
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="primary" onClick={addToCartHandler}>
-                        Add to Cart
-                      </Button>
+                      <Button onClick={addToCartHandler}>Add to Cart</Button>
                     </div>
                   </ListGroup.Item>
                 )}
