@@ -30,7 +30,7 @@ jobs:
 
       - name: Deploy backend on Render
         run: |
-          curl -X POST -d '' "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}" || exit 1
+          curl -X POST "https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
 
       - name: Deploy frontend to Netlify
         uses: nwtgck/actions-netlify@v2
@@ -39,5 +39,3 @@ jobs:
           production-branch: main
           deploy-message: 'Deployed via GitHub Actions'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          netlify-auth-token: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
-          site-id: ${{ secrets.NETLIFY_SITE_ID }}
