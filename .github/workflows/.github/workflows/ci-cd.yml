@@ -1,0 +1,42 @@
+name: MERN CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install --prefix backend
+          npm install --prefix frontend
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy backend on Render
+        run: |
+          curl -X POST -d '' "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}" || exit 1
+
+      - name: Deploy frontend to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: ./frontend/build
+          production-branch: main
+          deploy-message: 'Deployed via GitHub Actions'
+          netlify-auth-token: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+          site-id: ${{ secrets.NETLIFY_SITE_ID }}
