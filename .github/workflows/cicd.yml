@@ -46,12 +46,10 @@ jobs:
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
 
       - name: Deploy frontend to Netlify
-        uses: netlify/actions/deploy@v2
+        uses: netlify/actions/cli@v2
         with:
-          netlify-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          site-id: ${{ secrets.NETLIFY_SITE_ID }}
-          publish-dir: ./frontend/build
-          production-branch: main
-          deploy-message: 'Deployed via GitHub Actions'
+          args: deploy --dir=./frontend/build --prod
         env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
