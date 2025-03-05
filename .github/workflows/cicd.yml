@@ -38,5 +38,5 @@ jobs:
           publish-dir: ./frontend/build
           production-branch: main
           deploy-message: 'Deployed via GitHub Actions'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          alias: production
+          netlify-auth-token: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+          site-id: ${{ secrets.NETLIFY_SITE_ID }}
