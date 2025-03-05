@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,24 +18,43 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: |
-          npm install --prefix backend
-          npm install --prefix frontend
+          cd backend
+          npm install
+        continue-on-error: false
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+        continue-on-error: false
 
       - name: Build frontend
         run: |
           cd frontend
           npm run build
+        env:
+          # Add any frontend build-time env vars here, e.g.:
+          # REACT_APP_API_URL: ${{ secrets.API_URL }}
+        continue-on-error: false
 
-      - name: Deploy backend on Render
+      - name: Deploy backend to Render
         run: |
-          curl -X POST "https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
+          curl -X POST "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}" \
+          -H "Accept: application/json" \
+          -v
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
 
       - name: Deploy frontend to Netlify
-        uses: nwtgck/actions-netlify@v2
+        uses: netlify/actions/deploy@v2
         with:
+          netlify-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          site-id: ${{ secrets.NETLIFY_SITE_ID }}
           publish-dir: ./frontend/build
           production-branch: main
           deploy-message: 'Deployed via GitHub Actions'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
